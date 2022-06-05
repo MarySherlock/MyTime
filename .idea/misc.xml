@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/drawable/bg_round_white_10dp.xml" value="0.1" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/drawable/round_react.xml" value="0.265625" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_all_app_info.xml" value="0.2" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_app_info.xml" value="0.2" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_label_list_item.xml" value="0.24947916666666667" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_login2.xml" value="0.1793478260869565" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_pwd_update.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_register.xml" value="0.24947916666666667" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_setting.xml" value="0.34413965087281795" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_task_item_detail.xml" value="0.24947916666666667" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_task_list_detail.xml" value="0.24947916666666667" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/activity_task_list_history.xml" value="0.176" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/app_list_item_layout.xml" value="0.4" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/app_usage_item.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.1" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/dialog_schedule_insert.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/fragment_task_list.xml" value="0.536" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/fragment_time_statistics.xml" value="0.1" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/fragment_user_info.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/label_list_item_layout.xml" value="0.6" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/schedule_list_item.xml" value="0.4" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/task_list_history_item.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/task_list_item_layout.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/layout/tool_list_item_layout.xml" value="0.264" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/menu/navigation.xml" value="0.1" />
+        <entry key="..\:/TempProjects/MyTime/app/src/main/res/xml/litepal.xml" value="0.1265625" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="org.junit.Before" />
+    </list>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

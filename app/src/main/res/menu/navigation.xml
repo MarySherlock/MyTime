@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/time_statistics"
+        android:icon="@drawable/ic_time_statistics"
+        android:title="@string/time_statistics" />
+
+    <item
+        android:id="@+id/task_list_view"
+        android:icon="@drawable/ic_task_list"
+        android:title="@string/task_list" />
+
+    <item
+        android:id="@+id/user"
+        android:icon="@drawable/ic_user"
+        android:title="我的"/>
+</menu>

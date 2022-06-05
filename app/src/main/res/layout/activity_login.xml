@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.LoginActivity">
+
+    <EditText
+        android:id="@+id/accountEditText"
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="no"
+        android:hint="@string/user_account"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:textColorHint="@color/hint_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.373"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/pwdEditText"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/pwd_insert_login"
+        android:paddingStart="10dp"
+        android:textColorHint="@color/hint_color"
+        app:layout_constraintEnd_toEndOf="@+id/accountEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/accountEditText"
+        app:layout_constraintTop_toBottomOf="@+id/accountEditText"
+        tools:ignore="RtlSymmetry"
+        android:autofillHints="no"/>
+
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="@+id/accountEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/accountEditText"
+        app:layout_constraintTop_toBottomOf="@+id/pwdEditText" />
+
+    <TextView
+        android:id="@+id/register_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+    <TextView
+        android:id="@+id/update_pwd_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pwd_update_login"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+
+    <TextView
+        android:id="@+id/login_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exit_login_tv"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

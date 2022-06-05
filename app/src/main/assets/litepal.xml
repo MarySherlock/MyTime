@@ -1,0 +1,16 @@
+<?xml version ="1.0" encoding ="utf-8"?>
+<litepal>
+    <dbname value="Mytime" />
+    <version value="15" />
+    <list>
+        <mapping class="com.mytime.model.UserPwdInfo" />
+        <mapping class="com.mytime.model.UserInfo"/>
+        <mapping class="com.mytime.model.LabelInfo"/>
+        <mapping class="com.mytime.model.TaskListItemInfo"/>
+        <mapping class="com.mytime.model.ScheduleListItemInfo"/>
+        <mapping class="com.mytime.model.AppUsageInfo"/>
+        <mapping class="com.mytime.model.AppInfo"/>
+        <mapping class="com.mytime.model.LabelOfAppInfo"/>
+        <mapping class="com.mytime.model.AppUsageDetailInfo"/>
+    </list>
+</litepal>

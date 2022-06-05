@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">MyTime</string>
+
+    <string name="user_account">请输入邮箱</string>
+    <string name="pwd_insert_login">请输入密码</string>
+    <string name="pwd_insert_again">请再次输入密码</string>
+    <string name="pwd_update_login">忘记密码？</string>
+    <string name="pwd_login_remember">记住密码</string>
+    <string name="login">登录</string>
+
+    <string name="code">验证码</string>
+    <string name="send_code">发送验证码</string>
+    <string name="register">注册</string>
+    <string name="register_notice">我已阅读并同意《用户协议》与《隐私条款》</string>
+
+    <string name="time_statistics">时间统计分析</string>
+    <string name="task_list">任务清单</string>
+    <string name="exit_login_tv">退出</string>
+    <string name="pwd_update">更改</string>
+    <string name="pwd_insert_new">请输入新密码</string>
+    <string name="pwd_insert_new_again">请再次输入新密码</string>
+    <string name="back_register">返回登录</string>
+    <string name="app_label_list">应用分类列表</string>
+    <string name="select_all_labels">全选</string>
+    <string name="delete_labels">删除</string>
+    <string name="add_app">增加应用</string>
+    <string name="update_label">修改分类</string>
+    <string name="delete_label">删除分类</string>
+    <string name="explain_label">分类详情</string>
+    <string name="task_list_name">清单名称</string>
+    <string name="task_list_description">描述</string>
+    <string name="yes">确定</string>
+    <string name="cancel">取消</string>
+    <string name="history_task_list">历史清单</string>
+    <string name="schedule_name">待办事项名称</string>
+
+    <string name="label_app_usage">AppUsage</string>
+    <string name="app_remove">移除</string>
+    <string name="app_info_list">应用信息列表</string>
+    <string name="add">添加</string>
+
+</resources>

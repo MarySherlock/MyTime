@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/round_react"
+    >
+    <CheckBox
+        android:id="@+id/select_task_list_item"
+        android:layout_width="25dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/task_list_item_img"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_list"/>
+
+    <TextView
+        android:id="@+id/task_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="6dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/none"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/add_schedule_item"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add_label"
+        android:contentDescription="@string/update_label" />
+    <ImageView
+        android:id="@+id/update_task_list_item"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_update_label"
+        android:contentDescription="@string/update_label" />
+
+
+    <ImageView
+        android:id="@+id/finish_task_list_item_img"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/ic_manage"/>
+
+    <ImageView
+        android:id="@+id/delete_task_list_item"
+        android:layout_width="40dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="6dp"
+        android:src="@drawable/ic_delete_task_item"
+        android:layout_marginEnd="16dp"/>
+
+</LinearLayout>
