@@ -69,6 +69,7 @@ public class UserInfoFragment extends Fragment {
         this.toolsListView.setOnItemClickListener((parent, view, position, id) -> {
             if(position == 2){
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("flag",true);
                 startActivity(intent);
                 ActivityController.finishAll();
             }else if(position == 0){
@@ -76,8 +77,7 @@ public class UserInfoFragment extends Fragment {
                 intent.putExtra("account",this.account);
                 getActivity().startActivity(intent);
             }else if (position == 3){
-                LitePal.deleteAll(UserPwdInfo.class,"account=?",this.account);
-//                LitePal.deleteAll(UserInfo.class,"account=?",this.account);
+                LitePal.deleteDatabase("Mytime");
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();

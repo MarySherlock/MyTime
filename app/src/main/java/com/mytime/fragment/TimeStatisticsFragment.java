@@ -192,7 +192,7 @@ public class TimeStatisticsFragment extends Fragment {
         roseChartSmall.setShowChartLable(false);    //是否在图表上显示指示lable
         roseChartSmall.setShowChartNum(false);     //是否在图表上显示指示num
         roseChartSmall.setShowNumTouched(false);   //点击显示数量
-        roseChartSmall.setShowRightNum(true);      //右侧显示数量
+        roseChartSmall.setShowRightNum(false);      //右侧显示数量
         List<Object> roseList = new ArrayList<>();
 
         long sumTime = 0;

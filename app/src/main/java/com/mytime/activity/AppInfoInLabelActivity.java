@@ -125,15 +125,10 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
         // 移除
         this.appRemoveTextView.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.appInfoListViewAdapter.getMap();
-            // 获取到条目数量。map.size = list.size,所以
             int count = this.appInfoListViewAdapter.getCount();
-            // 遍历
             for (int i = 0; i < count; i++) {
-                // 删除有两个map和list都要删除 ,计算方式
                 int position = i - (count - this.appInfoListViewAdapter.getCount());
-                // 推断状态 true为删除
                 if (isCheck.get(i) != null && isCheck.get(i)) {
-                    // 数据库删除数据
                     String appName = this.appInfoListViewAdapter.getItem(position).getAppName();
 
                     AppInfo appInfo = this.appInfoListViewAdapter.getItem(position);
@@ -152,9 +147,8 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
 
                     LitePal.deleteAll(AppInfo.class,"appName=?",appName);
                     LitePal.deleteAll(LabelOfAppInfo.class,"appName=?",appName);
-                    // listview删除数据
                     isCheck.remove(i);
-//                    this.appInfoListViewAdapter.removeData(position);
+                    this.selectLinearLayout.setVisibility(View.GONE);
 
                 }
             }

@@ -35,7 +35,6 @@ import com.mytime.util.StringUtil;
 
 import org.litepal.LitePal;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,9 +51,11 @@ public class TaskListDetailActivity extends BaseActivity {
     private ScheduleListItemViewAdapter scheduleListItemViewAdapter;
     private TaskListCrud taskListCrud;
     private String account;
+    String listName;
+
 
     private ImageView listDetailImage;
-    private TextView listName;
+    private TextView listNameTextView;
     private TextView listDescription;
     private TextView listCreateTime;
     private TextView listFinishTime;
@@ -79,7 +80,7 @@ public class TaskListDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_task_list_detail);
 
         this.listDetailImage = findViewById(R.id.list_detail);
-        this.listName = findViewById(R.id.list_name);
+        this.listNameTextView = findViewById(R.id.list_name);
         this.listDescription = findViewById(R.id.description_list);
         this.listCreateTime = findViewById(R.id.create_time);
         this.listFinishTime = findViewById(R.id.finish_list);
@@ -103,18 +104,12 @@ public class TaskListDetailActivity extends BaseActivity {
         this.listDetailImage.setOnClickListener(v->{
             finish();
         });
-        this.listName.setOnClickListener(v->{
-            String taskListName = this.listName.getText().toString();
+        this.listNameTextView.setOnClickListener(v->{
+            String taskListName = this.listNameTextView.getText().toString();
             String description = this.listDescription.getText().toString();
             this.popUpdateAlertDialog(taskListName,description);
 
         });
-
-//        this.listDescription.setOnClickListener(v -> {
-//            String taskListName = this.listName.getText().toString();
-//            String description = this.listDescription.getText().toString();
-//            this.popUpdateDescriptionAlertDialog(taskListName,description);
-//        });
 
         this.scheduleListView.setOnItemClickListener((parent, view, position, id) -> {
             ImageView finishItem = view.findViewById(R.id.manage_item);
@@ -127,17 +122,12 @@ public class TaskListDetailActivity extends BaseActivity {
             String listName = scheduleListItemInfo.getListName();
             boolean state = scheduleListItemInfo.getSate();
 
-//            if(state){
-//                updateItem.setEnabled(false);
-//                finishItem.setClickable(false);
-//            }
-
             updateItem.setOnClickListener(v -> {
                 this.showInsertScheduleDialog(listName,itemName,itemLabel);
             });
 
             finishItem.setOnClickListener(v->{
-                this.popFinishAlertDialog(itemName,listName,itemLabel);
+                this.popFinishAlertDialog(itemName,listName,itemLabel,scheduleListItemInfo);
             });
 
             deleteItem.setOnClickListener(v->{
@@ -170,7 +160,6 @@ public class TaskListDetailActivity extends BaseActivity {
             }
         });
 
-        //全选
         this.selectAllSchedule.setOnClickListener(
                 v -> {
                     this.scheduleListItemViewAdapter.initCheck(selectAllSchedule.isChecked());
@@ -181,18 +170,12 @@ public class TaskListDetailActivity extends BaseActivity {
 
         this.deleteScheduleItem.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.scheduleListItemViewAdapter.getMap();
-            // 获取到条目数量。map.size = list.size,所以
             int count = this.scheduleListItemViewAdapter.getCount();
-            // 遍历
             for (int i = 0; i < count; i++) {
-                // 删除有两个map和list都要删除 ,计算方式
                 int position = i - (count - this.scheduleListItemViewAdapter.getCount());
-                // 推断状态 true为删除
                 if (isCheck.get(i) != null && isCheck.get(i)) {
-                    // 数据库删除数据
                     String itemName = this.scheduleListItemViewAdapter.getItem(position).getItemName();
                     LitePal.deleteAll(ScheduleListItemInfo.class,"itemName=?",itemName);
-                    // listview删除数据
                     isCheck.remove(i);
                     this.scheduleListItemViewAdapter.removeData(position);
                 }
@@ -202,16 +185,29 @@ public class TaskListDetailActivity extends BaseActivity {
         });
 
         this.insertScheduleButton.setOnClickListener(v -> {
-            String taskListName = this.listName.getText().toString();
+            String taskListName = this.listNameTextView.getText().toString();
             this.showInsertScheduleDialog(taskListName,"","");
         });
 
         this.generateRoutineButton.setOnClickListener(v->{
 
+            List<ScheduleListItemInfo> sListItemInfoList = LitePal.where("account=? and listName=? and state = 0", this.account, this.listName)
+                    .find(ScheduleListItemInfo.class);
             List<LabelInfo> labelInfoList = LitePal.findAll(LabelInfo.class);
 
             if (labelInfoList.isEmpty()){
                 BaseActivity.alertHandler(this,"请先在设置中进行软件分类！");
+            }
+
+            boolean flag = false;
+            for (ScheduleListItemInfo scheduleListItemInfo : sListItemInfoList) {
+                if (scheduleListItemInfo.getLabelName()!=null){
+                    flag = true;
+                    break;
+                }
+            }
+            if(sListItemInfoList.isEmpty()|| !flag){
+                BaseActivity.alertHandler(this,"请先创建带标签的待办事项！");
             }
 
             int len = labelInfoList.size();
@@ -227,10 +223,7 @@ public class TaskListDetailActivity extends BaseActivity {
                 String str = StringUtil.appUsageInfoToString(appUsageDetailInfo);
                 try {
                     FileUtil.context = this;
-//                            File file = FileUtil.createFile(this.directory,this.fileName);
-//                            FileUtil.writeInFile(str,file);
                     FileUtil.writeInFile(str,this.fileName);
-//                    Log.d("写入：",str);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -251,30 +244,25 @@ public class TaskListDetailActivity extends BaseActivity {
                 timeArray.get(labelType-1).add(hour);
             }
 
-            //统计每种应用使用的频率
-            //获取每种应用使用的次数
             List<Integer> sumList = new ArrayList<>();
             for (int i = 0; i < len; i++) {
                 sumList.add(timeArray.get(i).size());
             }
 
-            //获取频率
-            //统计每种应用的各个时间段使用的次数
             List<List<Double>> probabilities = new ArrayList<>();
+            boolean flagAll = false;
             for (List<Integer> integers : timeArray) {
 
-                //使用的总次数
                 int size = integers.size();
                 double p =1.0/size;
 
-                //不同时间段的统计
+
                 double[] pList = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
                 for (Integer integer : integers) {
                     pList[integer] += p;
+                    if (pList[integer]!=0) flagAll = true;
                 }
 
-                //提取数组中不为零的下标和概率，并按照概率进行排序
-                //将数组转换为列表
                 List<Double> tempList = new ArrayList<>();
                 for (int i = pList.length-1; i >=0 ; i--) {
                     tempList.add(pList[i]);
@@ -283,13 +271,13 @@ public class TaskListDetailActivity extends BaseActivity {
 
             }
 
-            //过滤掉已经完成的待办事项
-            this.scheduleListItemInfoList = this.scheduleListItemInfoList.parallelStream().filter(
-                    data->(!data.getSate())
-            ).collect(Collectors.toList());
+            if (!flagAll){
+                BaseActivity.alertHandler(this,"没有可参考的数据，分类失败！");
+            }
+
             List<String> suggestion = new ArrayList<>();
             String str = "";
-            for (ScheduleListItemInfo scheduleListItemInfo : this.scheduleListItemInfoList) {
+            for (ScheduleListItemInfo scheduleListItemInfo : sListItemInfoList) {
                 String labelName = scheduleListItemInfo.getLabelName();
                 int labelType = -1;
                 for (int i = 0; i < this.labelInfoList.size(); i++) {
@@ -298,7 +286,6 @@ public class TaskListDetailActivity extends BaseActivity {
                         break;
                     }
                 }
-                int temp_max = -1;
                 if (labelType!=-1){
                     List<Double> p = probabilities.get(labelType);
                     Double max = p.get(0);
@@ -316,11 +303,6 @@ public class TaskListDetailActivity extends BaseActivity {
                 }
 
             }
-//            if (!suggestion.isEmpty()){
-//                for (String s : suggestion) {
-//                    Log.d("建议：",s);
-//                }
-//            }
             this.generateTextView.setText(str);
         });
     }
@@ -329,10 +311,10 @@ public class TaskListDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         this.account = bundle.getString("account");
-        String listName = bundle.getString("listName");
+        this.listName = bundle.getString("listName");
         Log.d("任务清单名为：", listName);
 
-        List<TaskListItemInfo> taskListItemInfo = LitePal.where("account=? and taskListName=?",this.account,listName).find(TaskListItemInfo.class);
+        List<TaskListItemInfo> taskListItemInfo = LitePal.where("account=? and taskListName=?",this.account, listName).find(TaskListItemInfo.class);
         String description = taskListItemInfo.get(0).getTaskListDescription();
         String createTime = taskListItemInfo.get(0).getCreateDate();
         String finishTime = taskListItemInfo.get(0).getFinishDate();
@@ -342,14 +324,13 @@ public class TaskListDetailActivity extends BaseActivity {
         if ("".equals(finishTime)) finishTime = "--";
 
 
-        this.listName.setText(listName);
+        this.listNameTextView.setText(listName);
         this.listDescription.setText(description);
         this.listCreateTime.setText(createTime);
         this.listFinishTime.setText(finishTime);
 
 
-        this.scheduleListItemInfoList = LitePal.where("account=? and listName=?",this.account,listName)
-                .order("state")
+        this.scheduleListItemInfoList = LitePal.where("account=? and listName=?",this.account, listName)
                 .find(ScheduleListItemInfo.class);
 
         for (ScheduleListItemInfo scheduleListItemInfo : scheduleListItemInfoList) {
@@ -377,7 +358,7 @@ public class TaskListDetailActivity extends BaseActivity {
             List<TaskListItemInfo> taskListItemInfoList = LitePal.where("account=?  and taskListName=?",this.account,newName).find(TaskListItemInfo.class);
             if(taskListItemInfoList.isEmpty()){
                 taskListCrud.updateTaskListItemInfoByName(listName,newName,description,this.account);
-                this.listName.setText(newName);
+                this.listNameTextView.setText(newName);
                 BaseActivity.alertHandler(this,"待办清单名称修改成功！");
 
             }
@@ -427,7 +408,6 @@ public class TaskListDetailActivity extends BaseActivity {
         Button cancelBtn = view.findViewById(R.id.insert_no);
         yesBtn.setOnClickListener(v->{
             String name = scheduleName.getText().toString();
-            // 如果没有传清单名称进来，说明进行的是创建清单
             if(itemName.isEmpty()){
                 if(name.isEmpty()){
                     BaseActivity.alertHandler(this,"待办事项名称不能为空！");
@@ -464,17 +444,13 @@ public class TaskListDetailActivity extends BaseActivity {
                     List<ScheduleListItemInfo> scheduleListItemInfoList =
                             LitePal.where("account=? and listName=?",this.account,taskListName)
                                     .find(ScheduleListItemInfo.class);
-                    if(!name.equals(itemName)||!labelName.equals(scheduleListItemInfo.getLabelName())) {
-                        scheduleListItemInfo.setItemName(name);
-                        scheduleListItemInfo.updateAll("itemName=? and account=? and listName=?",itemName,this.account,taskListName);
-                        List<ScheduleListItemInfo> scheduleListItemInfoList1 = LitePal.where("account=? and listName=?",this.account,taskListName).find(ScheduleListItemInfo.class);
-                        this.scheduleListItemViewAdapter.setData(scheduleListItemInfoList1);
-                        this.scheduleListItemViewAdapter.notifyDataSetChanged();
-                        this.scheduleListView.setAdapter(this.scheduleListItemViewAdapter);
-                        BaseActivity.alertHandler(this,"待办事项更改成功！");
-                    }else{
-                        BaseActivity.alertHandler(this,"待办事项名称已存在！");
-                    }
+                    scheduleListItemInfo.setItemName(name);
+                    scheduleListItemInfo.updateAll("itemName=? and account=? and listName=?",itemName,this.account,taskListName);
+                    List<ScheduleListItemInfo> scheduleListItemInfoList1 = LitePal.where("account=? and listName=?",this.account,taskListName).find(ScheduleListItemInfo.class);
+                    this.scheduleListItemViewAdapter.setData(scheduleListItemInfoList1);
+                    this.scheduleListItemViewAdapter.notifyDataSetChanged();
+                    this.scheduleListView.setAdapter(this.scheduleListItemViewAdapter);
+                    BaseActivity.alertHandler(this,"待办事项更改成功！");
                 }
             }
 
@@ -524,27 +500,24 @@ public class TaskListDetailActivity extends BaseActivity {
         dialog.show();//显示弹出窗口
     }
 
-    private void popFinishAlertDialog(String itemName,String listName,String labelName){
+    private void popFinishAlertDialog(String itemName,String listName,String labelName,ScheduleListItemInfo scheduleListItemInfo1){
 
+        ScheduleListItemInfo scheduleListItemInfo = scheduleListItemInfo1;
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("提示");
         dialog.setMessage("是否已完成选中待办事项？");
         dialog.setCancelable(false); //设置按下返回键不能消失
-        dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ScheduleListItemInfo scheduleListItemInfo = new ScheduleListItemInfo(account,itemName,labelName,listName);
-                scheduleListItemInfo.setState(true);
-                scheduleListItemInfo.setFinishTime();
-                scheduleListItemInfo.updateAll("account=? and listName=? and itemName=?",account,listName,itemName);
-                List<ScheduleListItemInfo> scheduleListItemInfoList = LitePal.where("account=? and listName=?",account,listName)
-                        .order("state")
-                        .find(ScheduleListItemInfo.class);
+        dialog.setPositiveButton("是", (dialog12, which) -> {
+//            ScheduleListItemInfo scheduleListItemInfo = new ScheduleListItemInfo(account,itemName,labelName,listName);
+            scheduleListItemInfo.setState(true);
+            scheduleListItemInfo.setFinishTime();
+            scheduleListItemInfo.updateAll("account=? and listName=? and itemName=?",account,listName,itemName);
+            this.scheduleListItemInfoList = LitePal.where("account=? and listName=?",this.account, listName)
+                    .find(ScheduleListItemInfo.class);
 
-                scheduleListItemViewAdapter.setData(scheduleListItemInfoList);
-                scheduleListItemViewAdapter.notifyDataSetChanged();
+//            scheduleListItemViewAdapter.setData(scheduleListItemInfoList);
+            scheduleListItemViewAdapter.notifyDataSetChanged();
 
-            }
         });
         dialog.setNegativeButton("否", (dialog1, which) -> dialog1.cancel());
         dialog.show();//显示弹出窗口

@@ -71,25 +71,34 @@ public class ScheduleListItemViewAdapter extends BaseAdapter {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ScheduleListItemViewAdapter.ViewHolder viewHolder = null;
-        View view = null;
-        // 推断是不是第一次进来
-        if (convertView == null) {
-            view = LayoutInflater.from(this.context).inflate(R.layout.schedule_list_item, null);
-            viewHolder = new ScheduleListItemViewAdapter.ViewHolder();
-            viewHolder.checkBox = view.findViewById(R.id.select_schedule_list_item);
-            viewHolder.itemName = view.findViewById(R.id.schedule_item_name);
-            viewHolder.finishItem = view.findViewById(R.id.manage_item);
-            viewHolder.updateItem = view.findViewById(R.id.update_item);
-            viewHolder.deleteItem = view.findViewById(R.id.delete_item);
 
-            // 标记，能够复用
-            view.setTag(viewHolder);
-        } else {
-            view = convertView;
-            // 直接拿过来用
-            viewHolder = (ScheduleListItemViewAdapter.ViewHolder) view.getTag();
-        }
+        ScheduleListItemViewAdapter.ViewHolder viewHolder = null;
+
+        View view = null;
+        view = LayoutInflater.from(this.context).inflate(R.layout.schedule_list_item, null);
+        viewHolder = new ScheduleListItemViewAdapter.ViewHolder();
+        viewHolder.checkBox = view.findViewById(R.id.select_schedule_list_item);
+        viewHolder.itemName = view.findViewById(R.id.schedule_item_name);
+        viewHolder.finishItem = view.findViewById(R.id.manage_item);
+        viewHolder.updateItem = view.findViewById(R.id.update_item);
+        viewHolder.deleteItem = view.findViewById(R.id.delete_item);
+        // 推断是不是第一次进来
+//        if (convertView == null) {
+//            view = LayoutInflater.from(this.context).inflate(R.layout.schedule_list_item, null);
+//            viewHolder = new ScheduleListItemViewAdapter.ViewHolder();
+//            viewHolder.checkBox = view.findViewById(R.id.select_schedule_list_item);
+//            viewHolder.itemName = view.findViewById(R.id.schedule_item_name);
+//            viewHolder.finishItem = view.findViewById(R.id.manage_item);
+//            viewHolder.updateItem = view.findViewById(R.id.update_item);
+//            viewHolder.deleteItem = view.findViewById(R.id.delete_item);
+//
+//            // 标记，能够复用
+//            view.setTag(viewHolder);
+//        } else {
+//            view = convertView;
+//            // 直接拿过来用
+//            viewHolder = (ScheduleListItemViewAdapter.ViewHolder) view.getTag();
+//        }
         // 拿到对象
         ScheduleListItemInfo bean = scheduleItemInfoList.get(position);
         if(bean.getSate()){

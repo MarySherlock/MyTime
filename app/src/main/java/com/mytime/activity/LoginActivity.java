@@ -43,7 +43,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (checkUserPwdInfo()){
+        boolean flag = this.getIntent().getBooleanExtra("flag",false);
+        if (checkUserPwdInfo()&&(!flag)){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("account", this.userPwdInfoList.get(0).getAccount());
             startActivity(intent);
