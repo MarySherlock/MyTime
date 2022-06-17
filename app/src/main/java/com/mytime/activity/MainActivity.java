@@ -23,14 +23,7 @@ import com.mytime.fragment.TaskListFragment;
 import com.mytime.fragment.TimeStatisticsFragment;
 import com.mytime.fragment.UserInfoFragment;
 
-/**
- * @author wmj 2022/3/26
- * @version 2.0
- *
- *
- * Description:
- *
- */
+
 
 public class MainActivity extends BaseActivity{
 
@@ -42,7 +35,6 @@ public class MainActivity extends BaseActivity{
     boolean permissionFlag = false;
     AppLabelsCrud appLabelsCrud = new AppLabelsCrudImpl();
 
-    //回退栈问题
     @SuppressLint("NonConstantResourceId")
     private final BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = item -> {
@@ -72,7 +64,6 @@ public class MainActivity extends BaseActivity{
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
     }
 
-    //动态切换fragment
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction translation = fragmentManager.beginTransaction();
@@ -89,9 +80,6 @@ public class MainActivity extends BaseActivity{
 
         if(this.checkUsagePermission()) this.permissionFlag=true;
 
-//        if(appLabelsCrud.getAppLabelsName(this.account).isEmpty()){
-//            AppLabelsCrud.initAppLabelsInfo(this.account);
-//        }
     }
 
 

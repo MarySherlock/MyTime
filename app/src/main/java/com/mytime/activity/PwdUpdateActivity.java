@@ -13,16 +13,15 @@ import com.mytime.service.AccountValidateService;
 
 public class PwdUpdateActivity extends BaseActivity {
 
-    // 控件
-    EditText accountInsertEditText;         //输入用户电子邮箱
-    EditText codeEditText;                  //输入邮箱验证码
-    EditText pwdInsertEditText;             //第一次输入的密码
-    EditText pwdInsertAgainEditText;        //第二次输入的密码
-    Button sendCodeButton;                  //发送验证码
-    Button updateButton;                    //注册
+    EditText accountInsertEditText;
+    EditText codeEditText;
+    EditText pwdInsertEditText;
+    EditText pwdInsertAgainEditText;
+    Button sendCodeButton;
+    Button updateButton;
 
-    String account;         //登录账户
-    String code;            //验证码
+    String account;
+    String code;
 
     AccountValidateService accountValidateService = new AccountValidateLoginServiceImpl();
 

@@ -1,13 +1,6 @@
 package com.mytime.model;
 
 
-/**
- * autour : openXu
- * date : 2018/6/8 9:40
- * className : RoseBean
- * version : 1.0
- * description : 请添加类说明
- */
 public class RoseBean {
 
     private float count;

@@ -65,7 +65,6 @@ public class UserInfoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-        // listview监听事件
         this.toolsListView.setOnItemClickListener((parent, view, position, id) -> {
             if(position == 2){
                 Intent intent = new Intent(getActivity(), LoginActivity.class);

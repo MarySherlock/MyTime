@@ -66,7 +66,6 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
         appInfoListViewAdapter = new AppInfoListViewAdapter(this);
 
 
-        // 获取当前标签名
         Intent intent = getIntent();
         this.labelName = intent.getStringExtra("label");
 
@@ -76,16 +75,13 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
 
         init();
 
-        // 返回源界面
         this.backImageView.setOnClickListener(v-> finish());
 
-        // 修改标签名
         this.labelNameTextView.setOnClickListener(v->{
             String name = this.labelNameTextView.getText().toString();
             this.popUpdateAlertDialog(name);
         });
 
-        // 选择应用信息进行移除操作
         this.appSelectImageView.setOnClickListener(v->{
             if(!selectFlag){
                 selectFlag = true;
@@ -105,7 +101,6 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
             }
         });
 
-        // 为标签添加应用信息
         this.addAppInfoImageView.setOnClickListener(v->{
             Intent intent1 = new Intent(AppInfoInLabelActivity.this,AllAppInfoActivity.class);
             intent1.putExtra("account",this.account);
@@ -113,7 +108,6 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
             startActivity(intent1);
         });
 
-        //全选
         this.checkAll.setOnClickListener(
                 v -> {
                     Map<Integer, Boolean> isCheck = appInfoListViewAdapter.getMap();
@@ -122,7 +116,6 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
                 }
         );
 
-        // 移除
         this.appRemoveTextView.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.appInfoListViewAdapter.getMap();
             int count = this.appInfoListViewAdapter.getCount();
@@ -153,7 +146,6 @@ public class AppInfoInLabelActivity extends AppCompatActivity {
                 }
             }
             if(this.checkAll.isChecked()) this.checkAll.setChecked(false);
-//            this.appInfoListViewAdapter.notifyDataSetChanged();
             init();
         });
     }

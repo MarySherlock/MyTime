@@ -29,11 +29,8 @@ public class TaskListItemViewAdapter extends BaseAdapter {
 
     }
 
-    // 初始化map集合
     public void initCheck(boolean flag) {
-        // map集合的数量和list的数量是一致的
         for (int i = 0; i < taskListItemInfo.size(); i++) {
-            // 设置默认的显示
             isCheck.put(i, flag);
         }
     }
@@ -48,7 +45,6 @@ public class TaskListItemViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // 假设标签列表信息为null就返回一个0
         return taskListItemInfo != null? taskListItemInfo.size():0;
     }
 
@@ -68,7 +64,6 @@ public class TaskListItemViewAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         TaskListItemViewAdapter.ViewHolder viewHolder = null;
         View view = null;
-        // 推断是不是第一次进来
         if (convertView == null) {
             view = LayoutInflater.from(this.context).inflate(R.layout.task_list_item_layout, null);
             viewHolder = new TaskListItemViewAdapter.ViewHolder();
@@ -77,26 +72,18 @@ public class TaskListItemViewAdapter extends BaseAdapter {
             viewHolder.checkBox = view.findViewById(R.id.select_task_list_item);
             viewHolder.finishItem = view.findViewById(R.id.finish_task_list_item_img);
             viewHolder.deleteItem = view.findViewById(R.id.delete_task_list_item);
-//            viewHolder.updateItem = view.findViewById(R.id.update_label);
             viewHolder.addItem = view.findViewById(R.id.add_schedule_item);
-            // 标记，能够复用
             view.setTag(viewHolder);
         } else {
             view = convertView;
-            // 直接拿过来用
             viewHolder = (TaskListItemViewAdapter.ViewHolder) view.getTag();
         }
-        // 拿到对象
         TaskListItemInfo bean = taskListItemInfo.get(position);
-        // 填充数据
         viewHolder.itemName.setText(bean.getTaskListName());
-        // 勾选框的点击事件
         viewHolder.checkBox
                 .setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    // 用map集合保存
                     isCheck.put(position, isChecked);
                 });
-        // 设置状态
         if (isCheck.get(position) == null) {
             isCheck.put(position, false);
         }
@@ -104,7 +91,6 @@ public class TaskListItemViewAdapter extends BaseAdapter {
         return view;
     }
 
-    // 优化
     public static class ViewHolder {
         public CheckBox checkBox;
         public TextView itemName;
@@ -115,13 +101,10 @@ public class TaskListItemViewAdapter extends BaseAdapter {
         public ImageView addItem;
     }
 
-    // 全选button获取状态
     public Map<Integer, Boolean> getMap() {
-        // 返回状态
         return isCheck;
     }
 
-    // 删除一个数据
     public void removeData(int position) {
         taskListItemInfo.remove(position);
     }

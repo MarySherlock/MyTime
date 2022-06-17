@@ -59,7 +59,6 @@ public class TaskListFragment extends Fragment {
     private String account;
     private boolean selectFlag = false;
 
-//    private List<LabelInfo> labelInfoList;
 
 
     @Override
@@ -87,7 +86,6 @@ public class TaskListFragment extends Fragment {
         Log.d("当前生命周期：","onCreateView");
 
 
-        // 初始化控件
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         this.listHistory = view.findViewById(R.id.history_list);
         this.addTaskListItem = view.findViewById(R.id.add_task_list_item);
@@ -112,7 +110,6 @@ public class TaskListFragment extends Fragment {
 
 
 
-        // 查看已完成的历史待办事项清单列表
         this.listHistory.setOnClickListener(v -> {
 
             Intent intent = new Intent(getActivity(), TaskListHistoryActivity.class);
@@ -123,7 +120,6 @@ public class TaskListFragment extends Fragment {
         });
 
 
-        // listview item的点击事件反应
         this.taskListItem.setOnItemClickListener((parent, view1, position, id) -> {
             ImageView updateImage = view1.findViewById(R.id.update_task_list_item);
             ImageView finishImage = view1.findViewById(R.id.finish_task_list_item_img);
@@ -157,10 +153,8 @@ public class TaskListFragment extends Fragment {
             });
         });
 
-        // 添加待办事项清单表
         this.addTaskListItem.setOnClickListener(v -> this.showBottomSheetDialog("",""));
 
-        // 选中清单
         this.selectTaskItem.setOnClickListener(v -> {
             if(!selectFlag){
                 selectFlag = true;
@@ -182,7 +176,6 @@ public class TaskListFragment extends Fragment {
             }
         });
 
-        //全选
         this.checkAll.setOnClickListener(
                 v -> {
                     taskListItemViewAdapter.initCheck(checkAll.isChecked());
@@ -193,18 +186,12 @@ public class TaskListFragment extends Fragment {
 
         this.deleteTextView.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.taskListItemViewAdapter.getMap();
-            // 获取到条目数量。map.size = list.size,所以
             int count = this.taskListItemViewAdapter.getCount();
-            // 遍历
             for (int i = 0; i < count; i++) {
-                // 删除有两个map和list都要删除 ,计算方式
                 int position = i - (count - this.taskListItemViewAdapter.getCount());
-                // 推断状态 true为删除
                 if (isCheck.get(i) != null && isCheck.get(i)) {
-                    // 数据库删除数据
                     String itemName = this.taskListItemViewAdapter.getItem(position).getTaskListName();
                     LitePal.deleteAll(TaskListItemInfo.class,"taskListName=?",itemName);
-                    // listview删除数据
                     isCheck.remove(i);
                     this.taskListItemViewAdapter.removeData(position);
                 }
@@ -219,35 +206,9 @@ public class TaskListFragment extends Fragment {
     public void init(){
 
         taskListCrud = new TaskListCrudImpl();
-//        this.labelInfoList = LitePal.findAll(LabelInfo.class);
-//        for (LabelInfo labelInfo : this.labelInfoList) {
-//            Log.d("当前标签有：",labelInfo.getLabelName());
-//            Log.d("accout为：",labelInfo.getAccount());
-//        }
 
-        // 获取用户账号
-
-//        this.labelInfoList = LitePal.where("account=?",this.account).find(LabelInfo.class);
-
-
-        // 待办事项清单内部待办事项数据绑定
         List<TaskListItemInfo> taskListItemList = LitePal.where("account=? and taskListState=?",this.account,"0").find(TaskListItemInfo.class);
-//        if(taskListItemList.isEmpty()){
-//
-//            ScheduleListItemInfo scheduleListItemInfo = new ScheduleListItemInfo(this.account,"好好学习","学习","海绵宝宝和派大星");
-//            ScheduleListItemInfo scheduleListItemInfo1 = new ScheduleListItemInfo(this.account,"天天向上","学习","海绵宝宝和派大星");
-//            ScheduleListItemInfo scheduleListItemInfo2 = new ScheduleListItemInfo(this.account,"天道酬勤","学习","海绵宝宝和派大星");
-//
-//            scheduleListItemInfo1.save();
-//            scheduleListItemInfo.save();
-//            scheduleListItemInfo2.save();
-//
-//            // 待办事项数据绑定
-//            TaskListItemInfo taskListItemInfo = new TaskListItemInfo(this.account,"海绵宝宝和派大星","章鱼哥才是我们社畜的真实写照");
-//            taskListItemInfo.setTaskListState(false);
-//            taskListItemInfo.save();
-//
-//        }
+
         this.taskListItemViewAdapter.setData(taskListItemList);
         this.taskListItem.setAdapter(this.taskListItemViewAdapter);
 
@@ -255,7 +216,6 @@ public class TaskListFragment extends Fragment {
     }
 
 
-    // 添加待办事项清单时，底部弹出菜单
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void showBottomSheetDialog(String itemName,String itemDescription){
 
@@ -277,7 +237,6 @@ public class TaskListFragment extends Fragment {
         yesBtn.setOnClickListener(v->{
             String name = taskListName.getText().toString();
             String description = taskListDescription.getText().toString();
-            // 如果没有传清单名称进来，说明进行的是创建清单
             if(itemName.isEmpty()){
                 if(name.isEmpty()){
                     BaseActivity.alertHandler(this.getActivity(),"待办事项清单名称不能为空！");
@@ -333,14 +292,14 @@ public class TaskListFragment extends Fragment {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this.getActivity());
         dialog.setTitle("提示");
         dialog.setMessage("是否已完成选中待办事项清单？");
-        dialog.setCancelable(false); //设置按下返回键不能消失
+        dialog.setCancelable(false);
         dialog.setPositiveButton("是", (dialog1, which) -> {
             taskListCrud.finishTaskListItem(this.account,itemName,description);
             this.taskListItemViewAdapter.removeData(position);
             this.taskListItemViewAdapter.notifyDataSetChanged();
         });
         dialog.setNegativeButton("否", (dialog12, which) -> dialog12.cancel());
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
     private void popDeleteAlertDialog(String itemName,int position){
@@ -355,7 +314,7 @@ public class TaskListFragment extends Fragment {
             this.taskListItemViewAdapter.notifyDataSetChanged();
         });
         dialog.setNegativeButton("取消", (dialog12, which) -> dialog12.cancel());
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
 
@@ -391,7 +350,6 @@ public class TaskListFragment extends Fragment {
 
         yesBtn.setOnClickListener(v->{
             String name = scheduleName.getText().toString();
-            // 如果没有传清单名称进来，说明进行的是创建清单
                 if(name.isEmpty()){
                     BaseActivity.alertHandler(this.getActivity(),"待办事项名称不能为空！");
                 }else{

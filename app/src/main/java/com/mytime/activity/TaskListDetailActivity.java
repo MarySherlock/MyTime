@@ -253,11 +253,9 @@ public class TaskListDetailActivity extends BaseActivity {
             boolean flagAll = false;
             for (List<Integer> integers : timeArray) {
 
+                double[] pList = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
                 int size = integers.size();
                 double p =1.0/size;
-
-
-                double[] pList = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
                 for (Integer integer : integers) {
                     pList[integer] += p;
                     if (pList[integer]!=0) flagAll = true;
@@ -487,7 +485,7 @@ public class TaskListDetailActivity extends BaseActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("提示");
         dialog.setMessage("是否确定删除选中待办事项？");
-        dialog.setCancelable(false); //设置按下返回键不能消失
+        dialog.setCancelable(false);
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -497,7 +495,7 @@ public class TaskListDetailActivity extends BaseActivity {
             }
         });
         dialog.setNegativeButton("取消", (dialog1, which) -> dialog1.cancel());
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
     private void popFinishAlertDialog(String itemName,String listName,String labelName,ScheduleListItemInfo scheduleListItemInfo1){
@@ -506,21 +504,19 @@ public class TaskListDetailActivity extends BaseActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("提示");
         dialog.setMessage("是否已完成选中待办事项？");
-        dialog.setCancelable(false); //设置按下返回键不能消失
+        dialog.setCancelable(false);
         dialog.setPositiveButton("是", (dialog12, which) -> {
-//            ScheduleListItemInfo scheduleListItemInfo = new ScheduleListItemInfo(account,itemName,labelName,listName);
             scheduleListItemInfo.setState(true);
             scheduleListItemInfo.setFinishTime();
             scheduleListItemInfo.updateAll("account=? and listName=? and itemName=?",account,listName,itemName);
             this.scheduleListItemInfoList = LitePal.where("account=? and listName=?",this.account, listName)
                     .find(ScheduleListItemInfo.class);
 
-//            scheduleListItemViewAdapter.setData(scheduleListItemInfoList);
             scheduleListItemViewAdapter.notifyDataSetChanged();
 
         });
         dialog.setNegativeButton("否", (dialog1, which) -> dialog1.cancel());
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
 }

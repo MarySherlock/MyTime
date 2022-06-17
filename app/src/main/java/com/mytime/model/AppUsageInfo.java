@@ -97,8 +97,6 @@ public class AppUsageInfo extends LitePalSupport {
         try {
             long l = o.getTotalTimeInForeground() - getTotalTimeInForeground();
             l=l/1000/60/60;
-//            if (l >= Integer.MAX_VALUE)
-//                l = Integer.MAX_VALUE - 1;
             return (int) (l);
         } catch (Exception e) {
             e.printStackTrace();

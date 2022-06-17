@@ -60,7 +60,6 @@ public class TaskListHistoryActivity extends BaseActivity{
             finish();
         });
 
-        // listview item的点击事件反应
         this.taskListHistoryItem.setOnItemClickListener((parent, view1, position, id) -> {
             ImageView updateImage = view1.findViewById(R.id.update_task_list_item_history);
             ImageView deleteImage = view1.findViewById(R.id.delete_task_list_item_history);
@@ -83,7 +82,6 @@ public class TaskListHistoryActivity extends BaseActivity{
         });
 
 
-        // 选中清单
         this.selectHistoryTaskItem.setOnClickListener(v -> {
             if(!selectFlag){
                 selectFlag = true;
@@ -103,7 +101,6 @@ public class TaskListHistoryActivity extends BaseActivity{
             }
         });
 
-        //全选
         this.checkAllHistory.setOnClickListener(
                 v -> {
                     taskListItemViewHistoryAdapter.initCheck(checkAllHistory.isChecked());
@@ -113,18 +110,12 @@ public class TaskListHistoryActivity extends BaseActivity{
 
         this.deleteHistoryTextView.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.taskListItemViewHistoryAdapter.getMap();
-            // 获取到条目数量。map.size = list.size,所以
             int count = this.taskListItemViewHistoryAdapter.getCount();
-            // 遍历
             for (int i = 0; i < count; i++) {
-                // 删除有两个map和list都要删除 ,计算方式
                 int position = i - (count - this.taskListItemViewHistoryAdapter.getCount());
-                // 推断状态 true为删除
                 if (isCheck.get(i) != null && isCheck.get(i)) {
-                    // 数据库删除数据
                     String itemName = this.taskListItemViewHistoryAdapter.getItem(position).getTaskListName();
                     LitePal.deleteAll(TaskListItemInfo.class,"taskListName=?",itemName);
-                    // listview删除数据
                     isCheck.remove(i);
                     this.taskListItemViewHistoryAdapter.removeData(position);
                 }
@@ -152,34 +143,7 @@ public class TaskListHistoryActivity extends BaseActivity{
 
 
 
-        // 待办事项清单内部待办事项数据绑定
         List<TaskListItemInfo> taskListItemList = LitePal.where("account=? and taskListState=?",this.account,"1").find(TaskListItemInfo.class);
-
-//        if(taskListItemList.isEmpty()){
-//
-//            ScheduleListItemInfo scheduleListItemInfo = new ScheduleListItemInfo(this.account,"好好学习","学习","海绵宝宝和派大星历史清单");
-//            ScheduleListItemInfo scheduleListItemInfo1 = new ScheduleListItemInfo(this.account,"天天向上","学习","海绵宝宝和派大星历史清单");
-//            ScheduleListItemInfo scheduleListItemInfo2 = new ScheduleListItemInfo(this.account,"天道酬勤","学习","海绵宝宝和派大星历史清单");
-//
-//            scheduleListItemInfo1.setState(true);
-//            scheduleListItemInfo2.setState(true);
-//            scheduleListItemInfo.setState(true);
-//
-//            scheduleListItemInfo1.save();
-//            scheduleListItemInfo.save();
-//            scheduleListItemInfo2.save();
-//
-//            // 待办事项数据绑定
-//            TaskListItemInfo taskListItemInfo = new TaskListItemInfo(this.account,"海绵宝宝和派大星历史清单","章鱼哥才是我们社畜的真实写照");
-//            taskListItemInfo.setTaskListState(true);
-//            taskListItemInfo.save();
-//        }
-//        else {
-//            for (TaskListItemInfo taskListItemInfo : taskListItemList) {
-//                Log.d("清单名称",taskListItemInfo.getTaskListName());
-//
-//            }
-//        }
         this.taskListItemViewHistoryAdapter.setData(taskListItemList);
         this.taskListHistoryItem.setAdapter(this.taskListItemViewHistoryAdapter);
 
@@ -233,7 +197,7 @@ public class TaskListHistoryActivity extends BaseActivity{
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("提示");
         dialog.setMessage("删除待办事项清单，其中待办事项也会同时删除，是否确定删除选中待办事项清单？");
-        dialog.setCancelable(false); //设置按下返回键不能消失
+        dialog.setCancelable(false);
         dialog.setPositiveButton("确定", (dialog1, which) -> {
             this.taskListCrud.deleteTaskListItem(account,itemName);
             this.taskListItemViewHistoryAdapter.removeData(position);
@@ -241,7 +205,7 @@ public class TaskListHistoryActivity extends BaseActivity{
             this.taskListHistoryItem.setAdapter(this.taskListItemViewHistoryAdapter);
         });
         dialog.setNegativeButton("取消", (dialog12, which) -> dialog12.cancel());
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
 }

@@ -9,9 +9,9 @@ public class AppUsageDetailInfo extends LitePalSupport {
     String beginningTime;
     String endTime;
     String lastUsedTime;
-    int foregroundHours; //前台总共运行的时间
-    int appLaunchCount; //应用被拉起启动次数
-    int launchCount;//应用前台启动次数(包括自己启动其他activity)
+    int foregroundHours;
+    int appLaunchCount;
+    int launchCount;
 
     public AppUsageDetailInfo(){
         this.labelType = -1;

@@ -63,18 +63,15 @@ public class SettingActivity extends AppCompatActivity {
 
             String labelName = this.labelListViewAdapter.getItem(position).getLabelName();
 
-            // 修改标签名
             updateLabelImageView.setOnClickListener(v->{
                 this.popUpdateAlertDialog(labelName);
             });
 
-            // 删除标签名
             deleteLabelImageView.setOnClickListener(v->{
                 Log.d("当前点击的标签是：", labelName);
                 this.popDeleteAlertDialog(labelName,position);
             });
 
-            // 增加标签下应用信息
             addAppImageView.setOnClickListener(v->{
                 Intent intent = new Intent(SettingActivity.this, AllAppInfoActivity.class);
                 intent.putExtra("label",labelName);
@@ -82,7 +79,6 @@ public class SettingActivity extends AppCompatActivity {
                 startActivity(intent);
             });
 
-            // 标签下的应用信息
             view.setOnClickListener(v->{
                 Intent intent = new Intent(SettingActivity.this, AppInfoInLabelActivity.class);
                 intent.putExtra("label",labelName);
@@ -92,12 +88,10 @@ public class SettingActivity extends AppCompatActivity {
 
         });
 
-        // 新增分类
         this.addLabel.setOnClickListener(v->{
             this.popInsertAlertDialog();
         });
 
-        // 选中分类
         this.selectLabel.setOnClickListener(v->{
             if(!selectFlag){
                 selectFlag = true;
@@ -117,7 +111,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        //全选
         this.checkAll.setOnClickListener(
             v -> {
                 Map<Integer, Boolean> isCheck = labelListViewAdapter.getMap();
@@ -128,18 +121,12 @@ public class SettingActivity extends AppCompatActivity {
 
         this.deleteTextView.setOnClickListener(v->{
             Map<Integer, Boolean> isCheck = this.labelListViewAdapter.getMap();
-            // 获取到条目数量。map.size = list.size,所以
             int count = this.labelListViewAdapter.getCount();
-            // 遍历
             for (int i = 0; i < count; i++) {
-                // 删除有两个map和list都要删除 ,计算方式
                 int position = i - (count - this.labelListViewAdapter.getCount());
-                // 推断状态 true为删除
                 if (isCheck.get(i) != null && isCheck.get(i)) {
-                    // 数据库删除数据
                     String itemName = this.labelListViewAdapter.getItem(position).getLabelName();
                     LitePal.deleteAll(LabelInfo.class,"labelName=?",itemName);
-                    // listview删除数据
                     isCheck.remove(i);
                     this.labelListViewAdapter.removeData(position);
                 }
@@ -215,7 +202,7 @@ public class SettingActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("提示");
         dialog.setMessage("删除分类会同时清空此分类下的应用信息，是否确定删除选中分类？");
-        dialog.setCancelable(false); //设置按下返回键不能消失
+        dialog.setCancelable(false);
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -242,7 +229,7 @@ public class SettingActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        dialog.show();//显示弹出窗口
+        dialog.show();
     }
 
     @Override

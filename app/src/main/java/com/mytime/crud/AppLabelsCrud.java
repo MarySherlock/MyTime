@@ -6,7 +6,6 @@ import java.util.List;
 
 public abstract class AppLabelsCrud {
 
-    // 初始化应用分类信息
     public static void initAppLabelsInfo(String account){
 
         LabelInfo labelInfo1 = new LabelInfo(account,"工作");

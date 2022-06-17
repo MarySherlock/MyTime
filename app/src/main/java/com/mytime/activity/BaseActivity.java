@@ -23,12 +23,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-/**
- * @author wmj 2022/3/26
- * @version 2.0
- * @Description: 在后台输出前台运行的页面属于哪一个Activity
- *
- */
 public class BaseActivity extends AppCompatActivity {
 
     private AlertDialog alertDialog;
@@ -53,10 +47,7 @@ public class BaseActivity extends AppCompatActivity {
         ActivityController.removeActivity(this);
     }
 
-    /**
-     * 弹出指定的提示信息
-     * @param string 提示信息
-     */
+
     public static void alertHandler(Context context, String string){
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> {

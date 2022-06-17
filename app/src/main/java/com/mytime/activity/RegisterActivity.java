@@ -15,22 +15,20 @@ import com.mytime.service.AccountValidateService;
 
 public class RegisterActivity extends BaseActivity {
 
-    // 控件
-    EditText accountInsertEditText;         //输入用户电子邮箱
-    EditText codeEditText;                  //输入邮箱验证码
-    EditText pwdInsertEditText;             //第一次输入的密码
-    EditText pwdInsertAgainEditText;        //第二次输入的密码
-    Button sendCodeButton;                  //发送验证码
-    Button registerButton;                  //注册
+    EditText accountInsertEditText;
+    EditText codeEditText;
+    EditText pwdInsertEditText;
+    EditText pwdInsertAgainEditText;
+    Button sendCodeButton;
+    Button registerButton;
     CheckBox noticeCheckBox;
     TextView backTextView;
 
-    //变量
-    String accountRegisterString;           //用户电子邮箱
-    String pwdRegisterString;               //第一次输入的密码
-    String pwdAgainRegisterString;          //第二次输入的密码
-    String codeRegisterString;              //用户输入的邮箱验证码
-    String codeMailSend;                    //邮箱发送的验证码
+    String accountRegisterString;
+    String pwdRegisterString;
+    String pwdAgainRegisterString;
+    String codeRegisterString;
+    String codeMailSend;
 
 
     AccountValidateService accountValidateService = new AccountValidateRegisterServiceImpl();
@@ -48,7 +46,6 @@ public class RegisterActivity extends BaseActivity {
                 finish();
             });
 
-            // 发送验证码
             sendCodeButton.setOnClickListener(view -> {
                 accountRegisterString = accountInsertEditText.getText().toString();
                 if (accountValidateService.judgeAccount(this, accountRegisterString)) {
@@ -56,7 +53,6 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
 
-            //账户注册监听
             registerButton.setOnClickListener(view -> {
 
 
@@ -72,9 +68,7 @@ public class RegisterActivity extends BaseActivity {
                                 && accountValidateService.judgePWD(this, pwdAgainRegisterString)
                                 && accountValidateService.judgePWD(this, pwdRegisterString)) {
 
-                            //保存账号
                             if(accountValidateService.saveUserPwdInfo(this, accountRegisterString, pwdRegisterString, noticeCheckBox.isChecked())){
-                                //传回账号
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 intent.putExtra("account", accountRegisterString);
                                 intent.putExtra("pwd", pwdAgainRegisterString);
@@ -87,9 +81,7 @@ public class RegisterActivity extends BaseActivity {
             });
         }
 
-    /**
-     * @Description: 初始化控件
-     */
+
     private void initView(){
         this.accountInsertEditText = findViewById(R.id.account_editText);
         this.codeEditText = findViewById(R.id.code_editText);
